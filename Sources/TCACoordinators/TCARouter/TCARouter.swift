@@ -20,20 +20,27 @@ public struct TCARouter<
 
   @ObservedObject private var viewStore: ViewStore<CoordinatorState, CoordinatorAction>
   @ViewBuilder var screenContent: (Store<Screen, ScreenAction>) -> ScreenContent
+  
+  let kp: (Int, Screen) -> KeyPath<CoordinatorState, Screen>
+  let ckp: (ID, Screen) -> CaseKeyPath<CoordinatorAction, ScreenAction>
 
   func scopedStore(index: Int, screen: Screen) -> Store<Screen, ScreenAction> {
-    var screen = screen
-    return store.scope(
-      state: {
-        screen = routes($0)[safe: index]?.screen ?? screen
-        return screen
-      },
-      action: {
-        let id = identifier(screen, index)
-        return action(id, $0)
-      }
-    )
+    return store.scope(state: kp(index, screen), action: ckp(identifier(screen, index), screen))
   }
+  
+//  func scopedStore(index: Int, screen: Screen) -> Store<Screen, ScreenAction> {
+//    var screen = screen
+//    return store.scope(
+//      state: {
+//        screen = routes($0)[safe: index]?.screen ?? screen
+//        return screen
+//      },
+//      action: {
+//        let id = identifier(screen, index)
+//        return action(id, $0)
+//      }
+//    )
+//  }
 
   public var body: some View {
     Router(
@@ -50,7 +57,9 @@ public struct TCARouter<
     updateRoutes: @escaping ([Route<Screen>]) -> CoordinatorAction,
     action: @escaping (ID, ScreenAction) -> CoordinatorAction,
     identifier: @escaping (Screen, Int) -> ID,
-    screenContent: @escaping (Store<Screen, ScreenAction>) -> ScreenContent
+    screenContent: @escaping (Store<Screen, ScreenAction>) -> ScreenContent,
+    kp: @escaping (Int, Screen) -> KeyPath<CoordinatorState, Screen>,
+    ckp: @escaping (ID, Screen) -> CaseKeyPath<CoordinatorAction, ScreenAction>
   ) {
     self.store = store
     self.routes = routes
@@ -59,6 +68,8 @@ public struct TCARouter<
     self.identifier = identifier
     self.screenContent = screenContent
     self.viewStore = ViewStore(store, observe: { $0 }, removeDuplicates: { routes($0).map(\.style) == routes($1).map(\.style) })
+    self.kp = kp
+    self.ckp = ckp
   }
 }
 
@@ -69,7 +80,9 @@ public extension TCARouter where Screen: Identifiable {
     routes: @escaping (CoordinatorState) -> IdentifiedArrayOf<Route<Screen>>,
     updateRoutes: @escaping (IdentifiedArrayOf<Route<Screen>>) -> CoordinatorAction,
     action: @escaping (ID, ScreenAction) -> CoordinatorAction,
-    screenContent: @escaping (Store<Screen, ScreenAction>) -> ScreenContent
+    screenContent: @escaping (Store<Screen, ScreenAction>) -> ScreenContent,
+    kp: @escaping (Int, Screen) -> KeyPath<CoordinatorState, Screen>,
+    ckp: @escaping (ID, Screen) -> CaseKeyPath<CoordinatorAction, ScreenAction>
   ) where Screen.ID == ID {
     self.init(
       store: store,
@@ -77,7 +90,9 @@ public extension TCARouter where Screen: Identifiable {
       updateRoutes: { updateRoutes(IdentifiedArray(uniqueElements: $0)) },
       action: action,
       identifier: { state, _ in state.id },
-      screenContent: screenContent
+      screenContent: screenContent,
+      kp: kp,
+      ckp: ckp
     )
   }
 }
@@ -89,7 +104,9 @@ public extension TCARouter where ID == Int {
     routes: @escaping (CoordinatorState) -> [Route<Screen>],
     updateRoutes: @escaping ([Route<Screen>]) -> CoordinatorAction,
     action: @escaping (Int, ScreenAction) -> CoordinatorAction,
-    screenContent: @escaping (Store<Screen, ScreenAction>) -> ScreenContent
+    screenContent: @escaping (Store<Screen, ScreenAction>) -> ScreenContent,
+    kp: @escaping (Int, Screen) -> KeyPath<CoordinatorState, Screen>,
+    ckp: @escaping (ID, Screen) -> CaseKeyPath<CoordinatorAction, ScreenAction>
   ) {
     self.init(
       store: store,
@@ -97,7 +114,9 @@ public extension TCARouter where ID == Int {
       updateRoutes: updateRoutes,
       action: action,
       identifier: { $1 },
-      screenContent: screenContent
+      screenContent: screenContent,
+      kp: kp,
+      ckp: ckp
     )
   }
 }

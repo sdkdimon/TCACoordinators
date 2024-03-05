@@ -23,7 +23,7 @@ struct FormScreenEnvironment {
 struct FormScreen: Reducer {
   let environment: FormScreenEnvironment
 
-  enum State: Equatable, Identifiable {
+  enum State: Equatable, Identifiable, Hashable {
     case step1(Step1.State)
     case step2(Step2.State)
     case step3(Step3.State)
@@ -51,6 +51,9 @@ struct FormScreen: Reducer {
       var id: ID {
         self
       }
+    }
+    func hash(into hasher: inout Hasher) {
+      
     }
   }
 

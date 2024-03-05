@@ -14,8 +14,8 @@ let package = Package(
     ),
   ],
   dependencies: [
-    .package(url: "https://github.com/johnpatrickmorgan/FlowStacks", from: "0.3.6"),
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.5.0"),
+    .package(url: "https://github.com/johnpatrickmorgan/FlowStacks", from: "0.4.0"),
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.9.2"),
   ],
   targets: [
     .target(

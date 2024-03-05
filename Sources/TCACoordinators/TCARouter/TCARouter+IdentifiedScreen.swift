@@ -16,6 +16,8 @@ public extension TCARouter
   /// and Action conform to the `IdentifiedRouter...` protocols.
   init(
     _ store: Store<CoordinatorState, CoordinatorAction>,
+    kp: @escaping (Int, Screen) -> KeyPath<CoordinatorState, Screen>,
+    ckp: @escaping (ID, Screen) -> CaseKeyPath<CoordinatorAction, ScreenAction>,
     screenContent: @escaping (Store<Screen, ScreenAction>) -> ScreenContent
   ) {
     self.init(
@@ -23,7 +25,9 @@ public extension TCARouter
       routes: { $0.routes },
       updateRoutes: CoordinatorAction.updateRoutes,
       action: CoordinatorAction.routeAction,
-      screenContent: screenContent
+      screenContent: screenContent,
+      kp: kp,
+      ckp: ckp
     )
   }
 }

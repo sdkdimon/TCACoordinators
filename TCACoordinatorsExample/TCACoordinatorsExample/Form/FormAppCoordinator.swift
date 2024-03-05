@@ -2,10 +2,31 @@ import ComposableArchitecture
 import SwiftUI
 import TCACoordinators
 
-struct FormAppCoordinator: Reducer {
+extension Case where Value == FormAppCoordinator.Action {
+  subscript(index index: FormScreen.State.ID) -> Case<FormScreen.Action> {
+    Case<FormScreen.Action> { (value: FormScreen.Action)  in
+      FormAppCoordinator.Action.routeAction(index, action: value)
+    } extract: { (root: FormAppCoordinator.Action) in
+      if case let .routeAction(_, action) = root { return action }
+      return nil
+    }
+  }
+}
+
+extension Collection {
+  /// Returns the element at the specified index if it is within bounds, otherwise nil.
+  subscript(safe index: Index) -> Element? {
+    indices.contains(index) ? self[index] : nil
+  }
+}
+
+@Reducer
+struct FormAppCoordinator {
   struct State: IdentifiedRouterState, Equatable {
     static let initialState = Self(routeIDs: [.root(.step1, embedInNavigationView: true)])
-    
+    subscript(socpedFor index: Int, screen: FormScreen.State) -> FormScreen.State {
+      return routes[safe: index]?.screen ?? screen
+    }
     var step1State = Step1.State()
     var step2State = Step2.State()
     var step3State = Step3.State()
@@ -113,7 +134,11 @@ struct FormAppCoordinatorView: View {
   let store: StoreOf<FormAppCoordinator>
   
   var body: some View {
-    TCARouter(store) { screen in
+    TCARouter(store, kp: { idx, screen in
+      \FormAppCoordinator.State[socpedFor: idx, screen]
+    }, ckp: { idx, screen in
+      \Case<FormAppCoordinator.Action>[index: idx]
+    }) { screen in
       SwitchStore(screen) { screen in
         switch screen {
         case .step1:
