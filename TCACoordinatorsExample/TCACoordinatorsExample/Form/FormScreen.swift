@@ -20,9 +20,11 @@ struct FormScreenEnvironment {
   )
 }
 
-struct FormScreen: Reducer {
+@Reducer
+struct FormScreen {
   let environment: FormScreenEnvironment
 
+  @ObservableState
   enum State: Equatable, Identifiable, Hashable {
     case step1(Step1.State)
     case step2(Step2.State)

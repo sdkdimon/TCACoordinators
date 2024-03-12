@@ -8,4 +8,11 @@ public protocol IndexedRouterState {
 
   /// An array of screens, identified by index, representing a navigation/presentation stack.
   var routes: [Route<Screen>] { get set }
+  subscript(stateFor index: Int, screen: Screen) -> Screen { get }
+}
+
+public extension IndexedRouterState {
+  subscript(stateFor index: Int, screen: Screen) -> Screen {
+    return routes[safe: index]?.screen ?? screen
+  }
 }

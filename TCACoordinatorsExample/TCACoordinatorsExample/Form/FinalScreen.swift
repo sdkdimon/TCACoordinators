@@ -5,40 +5,40 @@ struct FinalScreenView: View {
   let store: StoreOf<FinalScreen>
 
   var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
+    WithPerceptionTracking {
       Form {
         Section {
           Button {
-            viewStore.send(.returnToName)
+            store.send(.returnToName)
           } label: {
             LabelledRow("First name") {
-              Text(viewStore.firstName)
-            }.foregroundColor(viewStore.firstName.isEmpty ? .red : .black)
+              Text(store.firstName)
+            }.foregroundColor(store.firstName.isEmpty ? .red : .black)
           }
 
           Button {
-            viewStore.send(.returnToName)
+            store.send(.returnToName)
           } label: {
             LabelledRow("Last Name") {
-              Text(viewStore.lastName)
-            }.foregroundColor(viewStore.lastName.isEmpty ? .red : .black)
+              Text(store.lastName)
+            }.foregroundColor(store.lastName.isEmpty ? .red : .black)
           }
 
           Button {
-            viewStore.send(.returnToDateOfBirth)
+            store.send(.returnToDateOfBirth)
           } label: {
             LabelledRow("Date of Birth") {
-              Text(viewStore.dateOfBirth, format: .dateTime.day().month().year())
+              Text(store.dateOfBirth, format: .dateTime.day().month().year())
             }
           }
 
           Button {
-            viewStore.send(.returnToJob)
+            store.send(.returnToJob)
           } label: {
             LabelledRow("Job") {
-              Text(viewStore.job ?? "-")
+              Text(store.job ?? "-")
 
-            }.foregroundColor((viewStore.job?.isEmpty ?? true) ? .red : .black)
+            }.foregroundColor((store.job?.isEmpty ?? true) ? .red : .black)
           }
         } header: {
           Text("Confirm Your Info")
@@ -46,20 +46,20 @@ struct FinalScreenView: View {
         .buttonStyle(.plain)
 
         Button("Submit") {
-          viewStore.send(.submit)
-        }.disabled(viewStore.isIncomplete)
+          store.send(.submit)
+        }.disabled(store.isIncomplete)
       }
       .navigationTitle("Submit")
-      .disabled(viewStore.submissionInFlight)
+      .disabled(store.submissionInFlight)
       .overlay {
-        if viewStore.submissionInFlight {
+        if store.submissionInFlight {
           Text("Submitting")
             .padding()
             .background(.thinMaterial)
             .cornerRadius(8)
         }
       }
-      .animation(.spring(), value: viewStore.submissionInFlight)
+      .animation(.spring(), value: store.submissionInFlight)
     }
   }
 }
@@ -93,7 +93,9 @@ struct APIModel: Codable, Equatable {
   let job: String
 }
 
-struct FinalScreen: Reducer {
+@Reducer
+struct FinalScreen {
+  @ObservableState
   struct State: Equatable {
     let firstName: String
     let lastName: String

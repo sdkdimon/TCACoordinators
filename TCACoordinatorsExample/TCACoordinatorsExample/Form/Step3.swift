@@ -2,29 +2,34 @@ import ComposableArchitecture
 import SwiftUI
 
 struct Step3View: View {
-  let store: StoreOf<Step3>
+  @Perception.Bindable var store: StoreOf<Step3>
+  
+  @MainActor @ViewBuilder func buildLabelFor(occupation: String) -> some View {
+    WithPerceptionTracking {
+      HStack {
+        Text(occupation)
+        Spacer()
+        if let selected = store.selectedOccupation, selected == occupation {
+          Image(systemName: "checkmark")
+        }
+      }
+    }
+  }
 
   var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
+    WithPerceptionTracking {
       Form {
         Section {
-          if !viewStore.occupations.isEmpty {
-            List(viewStore.occupations, id: \.self) { occupation in
+          if !store.occupations.isEmpty {
+            ForEach(store.occupations, id: \.self) { occupation in
               Button {
-                viewStore.send(.selectOccupation(occupation))
+                store.send(.selectOccupation(occupation))
               } label: {
-                HStack {
-                  Text(occupation)
-
-                  Spacer()
-
-                  if let selected = viewStore.selectedOccupation, selected == occupation {
-                    Image(systemName: "checkmark")
-                  }
-                }
+                buildLabelFor(occupation: occupation)
+                .buttonStyle(.plain)
               }
-              .buttonStyle(.plain)
             }
+            
           } else {
             ProgressView()
               .progressViewStyle(.automatic)
@@ -34,18 +39,20 @@ struct Step3View: View {
         }
 
         Button("Next") {
-          viewStore.send(.nextButtonTapped)
+          store.send(.nextButtonTapped)
         }
       }
       .onAppear {
-        viewStore.send(.getOccupations)
+        store.send(.getOccupations)
       }
       .navigationTitle("Step 3")
     }
   }
 }
 
-struct Step3: Reducer {
+@Reducer
+struct Step3 {
+  @ObservableState
   struct State: Equatable {
     var selectedOccupation: String?
     var occupations: [String] = []
@@ -65,6 +72,7 @@ struct Step3: Reducer {
       switch action {
       case .getOccupations:
         return .run { send in
+          try await Task.sleep(nanoseconds: 3_000_000_000)
           await send(.receiveOccupations(getOccupations()))
         }
 
