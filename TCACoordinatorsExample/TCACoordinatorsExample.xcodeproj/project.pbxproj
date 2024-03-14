@@ -26,8 +26,6 @@
 		528FEDF52880BD95007765AD /* FormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FEDE42880BC60007765AD /* FormScreen.swift */; };
 		528FEDF62880BD95007765AD /* FormAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FEDE62880BC60007765AD /* FormAppCoordinator.swift */; };
 		528FEDF82880BD95007765AD /* Step2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FEDE92880BC61007765AD /* Step2.swift */; };
-		8A421E6C2B9A3CEE002BB19B /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = 8A421E6B2B9A3CEE002BB19B /* SwiftSyntax */; };
-		8A421E6E2B9A3D4F002BB19B /* SwiftSyntaxMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 8A421E6D2B9A3D4F002BB19B /* SwiftSyntaxMacros */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,9 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A421E6E2B9A3D4F002BB19B /* SwiftSyntaxMacros in Frameworks */,
 				5248866026F2A53B00970899 /* TCACoordinators in Frameworks */,
-				8A421E6C2B9A3CEE002BB19B /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,8 +222,6 @@
 			name = TCACoordinatorsExample;
 			packageProductDependencies = (
 				5248865F26F2A53B00970899 /* TCACoordinators */,
-				8A421E6B2B9A3CEE002BB19B /* SwiftSyntax */,
-				8A421E6D2B9A3D4F002BB19B /* SwiftSyntaxMacros */,
 			);
 			productName = TCACoordinatorsExample;
 			productReference = 5248862C26F2A26200970899 /* TCACoordinatorsExample.app */;
@@ -302,7 +296,6 @@
 			);
 			mainGroup = 5248862326F2A26200970899;
 			packageReferences = (
-				8A421E6A2B9A3CD8002BB19B /* XCRemoteSwiftPackageReference "swift-syntax" */,
 			);
 			productRefGroup = 5248862D26F2A26200970899 /* Products */;
 			projectDirPath = "";
@@ -706,31 +699,10 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		8A421E6A2B9A3CD8002BB19B /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-syntax";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 510.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
 		5248865F26F2A53B00970899 /* TCACoordinators */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TCACoordinators;
-		};
-		8A421E6B2B9A3CEE002BB19B /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8A421E6A2B9A3CD8002BB19B /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
-		};
-		8A421E6D2B9A3D4F002BB19B /* SwiftSyntaxMacros */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8A421E6A2B9A3CD8002BB19B /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxMacros;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
