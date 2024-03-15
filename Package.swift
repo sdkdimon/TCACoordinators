@@ -14,7 +14,7 @@ let package = Package(
     ),
   ],
   dependencies: [
-    .package(url: "https://github.com/sdkdimon/FlowStacks", .branchItem("sdkdimon/experimental-nav-stack")),
+    .package(url: "https://github.com/sdkdimon/FlowStacks", .branchItem("experimental-nav-stack-no-flow-navigator")),
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.9.2"),
   ],
   targets: [

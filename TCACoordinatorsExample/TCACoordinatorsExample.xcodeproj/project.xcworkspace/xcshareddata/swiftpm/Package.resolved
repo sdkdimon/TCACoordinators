@@ -14,8 +14,8 @@
         "package": "FlowStacks",
         "repositoryURL": "https://github.com/sdkdimon/FlowStacks",
         "state": {
-          "branch": "sdkdimon/experimental-nav-stack",
-          "revision": "8c0cba57ddd797239aebcd2b081de29fd511a29d",
+          "branch": "experimental-nav-stack-no-flow-navigator",
+          "revision": "1f6b22613c5a723d5f80158e6dd5b6f8238df1df",
           "version": null
         }
       },
