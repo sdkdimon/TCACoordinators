@@ -9,10 +9,6 @@ struct Node<Screen, V: View, Modifier: ViewModifier>: View {
   let screen: Screen?
   let navigationViewModifier: Modifier
 
-  // NOTE: even though this object is unused, its inclusion avoids a glitch when swiping to dismiss
-  // a sheet that's been presented from a pushed screen with a view model.
-  @EnvironmentObject var navigator: FlowNavigator<Screen>
-
   @State var isAppeared = false
 
   init(allScreens: Binding<[Route<Screen>]>, truncateToIndex: @escaping (Int) -> Void, index: Int, navigationViewModifier: Modifier, buildView: @escaping (Binding<Screen>, Int) -> V) {

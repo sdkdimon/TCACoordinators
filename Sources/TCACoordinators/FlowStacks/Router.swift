@@ -24,7 +24,6 @@ public struct Router<Screen, ScreenView: View, Modifier: ViewModifier>: View {
 
   public var body: some View {
     Node(allScreens: $routes, truncateToIndex: { index in routes = Array(routes.prefix(index)) }, index: 0, navigationViewModifier: navigationViewModifier, buildView: buildView)
-      .environmentObject(FlowNavigator($routes))
   }
 }
 
