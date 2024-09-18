@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "FlowStacks",
-        "repositoryURL": "https://github.com/johnpatrickmorgan/FlowStacks",
-        "state": {
-          "branch": null,
-          "revision": "a2b974b81612e1e8ee3ecd757d936a2919527356",
-          "version": "0.4.1"
-        }
-      },
-      {
         "package": "swift-case-paths",
         "repositoryURL": "https://github.com/pointfreeco/swift-case-paths",
         "state": {
