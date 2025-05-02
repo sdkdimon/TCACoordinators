@@ -16,6 +16,6 @@ public extension TCARouter where Screen: Identifiable {
   }
 }
 
-extension Route: Identifiable where Screen: Identifiable {
+extension Route: @retroactive Identifiable where Screen: Identifiable {
   public var id: Screen.ID { screen.id }
 }

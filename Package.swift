@@ -1,4 +1,4 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.9
 
 import PackageDescription
 
@@ -14,7 +14,7 @@ let package = Package(
     ),
   ],
   dependencies: [
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.8.0"),
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.18.0"),
   ],
   targets: [
     .target(

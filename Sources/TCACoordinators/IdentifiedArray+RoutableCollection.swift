@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import Foundation
 
-extension IdentifiedArray: RoutableCollection {
+extension IdentifiedArray: @retroactive RoutableCollection {
   public mutating func _append(element: Element) {
     append(element)
   }
